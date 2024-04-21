@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
@@ -10,14 +10,20 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
-  
- <ItemGroup>
-    <Reference Include="common">
-          <HintPath>../out/common.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetTypes">
-          <HintPath>../../../code/build/bin/dotnet/DotNetTypes.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="..\common\lib\**\*.*">
+			<Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="common">
+			<HintPath>../out/common.dll</HintPath>
+		</Reference>
+		<Reference Include="DotNetTypes">
+			<HintPath>../../../code/build/bin/dotnet/DotNetTypes.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

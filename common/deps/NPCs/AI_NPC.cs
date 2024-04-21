@@ -11,7 +11,7 @@ public class AI_NPC : INpcEvent
     {
         if (api == null) 
         {
-            api = new OpenAIAPI("{put the key here}");
+            api = new OpenAIAPI("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");
         }
         if (conversations.ContainsKey(e.mob.GetName()))
         {
@@ -33,7 +33,7 @@ public class AI_NPC : INpcEvent
         return chat;
     }
 
-    public void Say(NpcEvent e)
+    public override void Say(NpcEvent e)
     {
         var chat = GetOrInitializeConversation(e);
         chat.AppendUserInput(e.data);

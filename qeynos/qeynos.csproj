@@ -7,11 +7,20 @@
     <Nullable>enable</Nullable>
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
-  
- <ItemGroup>
-    <Reference Include="DotNetTypes">
-      <HintPath>../../bin/dotnet/DotNetTypes.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="..\common\lib\**\*.*">
+			<Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="common">
+			<HintPath>../out/common.dll</HintPath>
+		</Reference>
+		<Reference Include="DotNetTypes">
+			<HintPath>../../../code/build/bin/dotnet/DotNetTypes.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

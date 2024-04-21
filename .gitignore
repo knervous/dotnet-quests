@@ -3,3 +3,5 @@ out
 obj
 !eq.sln
 !.vscode
+/.vs
+/qeynos/bin
