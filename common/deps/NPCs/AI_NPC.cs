@@ -11,7 +11,7 @@ public class AI_NPC : INpcEvent
     {
         if (api == null) 
         {
-            api = new OpenAIAPI("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");
+            api = new OpenAIAPI("{put the key here}");
         }
         if (conversations.ContainsKey(e.mob.GetName()))
         {
