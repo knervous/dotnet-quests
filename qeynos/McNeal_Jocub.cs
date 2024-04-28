@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-
 class McNeal_Jocub : INpcEvent
 {
     public override void Say(NpcEvent e)
@@ -28,12 +25,23 @@ class McNeal_Jocub : INpcEvent
         {
             e.npc.Say("Looking for moonstones, are we? The only way I know of getting a moonstone is to hunt gnolls for Captain Tillin of the Qeynos Guards.");
         }
+
+        
     }
 
     public override void Signal(NpcEvent e)
     {
-        e.npc.Say("Ah fuck it, you shall never take me alive!");
-        e.npc.Attack(e.entityList.GetNPCByName("Executioner"));
+        e.npc.Say("You shall never take me alive!");
+        var exec = e.entityList.GetNPCByName("Executioner");
+        if (exec == null) {
+            return;
+        }
+        exec.ClearSpecialAbilities();
+        e.npc.ClearSpecialAbilities();
+        exec.SetNPCAggro(true);
+        e.npc.SetNPCAggro(true);
+        e.npc.AddToHateList(exec, 1);
+        exec.AddToHateList(e.npc, 1);
     }
 
     public override void WaypointArrive(NpcEvent e)

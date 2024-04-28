@@ -25,9 +25,13 @@ public class AI_NPC : INpcEvent
         var faction = (int)e.mob.GetReverseFactionCon(e.npc);
 
         /// give instruction as System
-        chat.AppendSystemMessage($@"You are an NPC in the MMORPG EverQuest. You are {e.npc.GetCleanName()} and are in {e.zone.GetLongName()}.
+        chat.AppendSystemMessage($@"You are an NPC in the MMORPG EverQuest. You are {e.npc.GetCleanName()} and are in {e.zone.GetLongName()}. The person talking.
             The person talking to you is {e.mob.GetName()}. Always limit your response to a maximum of 3 sentences. Never break character and answer questions outside of the lore of EverQuest.
-            Keep in mind what you as an NPC might know about the world of EverQuest and that there are many things you may not know. If you are not a humanoid type creature, keep in mind you might not be able to speak the common tongue at all, but you may be able to communicate through body language.");
+            Keep in mind what you as an NPC might know about the world of EverQuest and that there are many things you may not know.
+            There is a faction system between 1 and 9 that determines how you perceive this person. 1 is the most loved and 9 is the most hated.
+            The person you are talking to has a faction value of {faction}
+            If you are not a humanoid type creature, keep in mind you might not be able to speak the common tongue at all, but you may be able to communicate through body language.
+        ");
 
         conversations.Add(e.mob.GetName(), chat);
         return chat;
@@ -38,8 +42,8 @@ public class AI_NPC : INpcEvent
         var chat = GetOrInitializeConversation(e);
         chat.AppendUserInput(e.data);
         string text = "";
-        //var faction = (int)e.mob.GetReverseFactionCon(e.npc);
-        //chat.AppendSystemMessage($"My most recent faction standing is {faction}.");
+        var faction = (int)e.mob.GetReverseFactionCon(e.npc);
+        chat.AppendSystemMessage($"My most recent faction standing is {faction}.");
         chat.StreamResponseFromChatbotAsync(res =>
         {
             text += res;

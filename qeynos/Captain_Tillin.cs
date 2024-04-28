@@ -1,47 +1,19 @@
 class Captain_Tillin : INpcEvent
 {
-    private int counter = 0;
-    public override void Timer(NpcEvent e)
-    {
-        e.logSys.QuestDebug($"Timer hit 11 {counter++}");
-    }
-
-    public override void TimerStart(NpcEvent e)
-    {
-        e.logSys.QuestDebug($"Timer start: e {e.data}");
-        Console.WriteLine($"Timer start: e {e.data}");
-    }
 
     public override void Say(NpcEvent e)
     {
-        e.SetupDebug();
-        // Set a break point anywhere between these two calls and
-        // Timeout will be 20 mins by default but client will disconnect us sooner
-        // When it hits 0% latency. Maybe figure out a way to continue message loop
-        // While threads are frozen here through eval.
-        e.npc.Say($"Hail {e.mob.GetCleanName()}!");
-        e.npc.Say($"A line I want to continue on much later after debugging.");
-
-        e.ResetDebug();
-        
         e.npc.Say($"Hail {e.mob.GetCleanName()}! Spend your time wisely in the city of Qeynos. Do not let your mind wander to thoughts of bravado or crime. My guards can easily put to rest any outbreaks. Good day to you, citizen!");
-    }
-
-    public override void Spawn(NpcEvent e)
-    {
-        Console.WriteLine("Zone bootup - spawn");
-        e.questManager.settimerMS("tillin", 5000);
     }
 
     public override void Signal(NpcEvent e)
     {
-        Console.WriteLine("Hit signal new 1");
         e.npc.Say("Ah.  Good.  You have arrived.  Executioner, could you please visit McNeal Jocub at Fish's Tavern.  He has violated our laws and the sentence is death.");
     }
 
     public override void Trade(NpcEvent e)
     {
-        var client = e.mob.CastToClient();
+        var client = e.client;
         foreach (ItemInstance item in e.itemList)
         {
             if (item.GetID() == 13915)
@@ -69,7 +41,7 @@ class Captain_Tillin : INpcEvent
                 e.questManager.exp(500);
                 Random rnd = new Random();
                 client.CashReward((uint)rnd.Next(1, 11), (uint)rnd.Next(1, 11), (uint)rnd.Next(1, 11), (uint)rnd.Next(1, 11));
-                // e.questManager.spawn2(1202, 62, 0, new Vec4(-412, 75, -24, 0)); // NPC: Executioner
+                e.questManager.spawn2(1202, 62, 0, new vec4(-412, 75, -24, 0)); // NPC: Executioner
             }
             else if (item.GetID() == 18912)
             {
