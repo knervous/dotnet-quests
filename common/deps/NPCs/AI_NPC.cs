@@ -33,7 +33,7 @@ public class AI_NPC : INpcEvent
         return chat;
     }
 
-    public void Say(NpcEvent e)
+    public override void Say(NpcEvent e)
     {
         var chat = GetOrInitializeConversation(e);
         chat.AppendUserInput(e.data);

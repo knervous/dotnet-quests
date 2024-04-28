@@ -1,12 +1,12 @@
 
 class Executioner : INpcEvent
 {
-    public void Say(NpcEvent e)
+    public override void Say(NpcEvent e)
     {
         e.npc.Say("I have no time to talk, citizen. Please, step aside! ");
     }
 
-    public void WaypointArrive(NpcEvent e)
+    public override void WaypointArrive(NpcEvent e)
     {
         var waypoint = int.Parse(e.data);
         e.logSys.QuestDebug($"Executioner reaches waypoint: {waypoint}");
@@ -26,7 +26,7 @@ class Executioner : INpcEvent
         }
     }
 
-    public void Signal(NpcEvent e)
+    public override void Signal(NpcEvent e)
     {
         e.npc.Say("Aye sir!");
     }

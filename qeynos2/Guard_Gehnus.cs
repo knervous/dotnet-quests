@@ -1,8 +1,7 @@
-
-class Guard_Gehnus : AI_NPC
+class Guard_Gehnus : AI_NPC 
 {
-    public void Spawn(NpcEvent e)
+    public override void Spawn(NpcEvent e)
     {
-        e.npc.Say($"Spawned");
+        e.npc.Say($"Spawned"); 
     }
 }

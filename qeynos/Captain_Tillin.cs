@@ -1,18 +1,18 @@
 class Captain_Tillin : INpcEvent
 {
     private int counter = 0;
-    public void Timer(NpcEvent e)
+    public override void Timer(NpcEvent e)
     {
         e.logSys.QuestDebug($"Timer hit 11 {counter++}");
     }
 
-    public void TimerStart(NpcEvent e)
+    public override void TimerStart(NpcEvent e)
     {
         e.logSys.QuestDebug($"Timer start: e {e.data}");
         Console.WriteLine($"Timer start: e {e.data}");
     }
 
-    public void Say(NpcEvent e)
+    public override void Say(NpcEvent e)
     {
         e.SetupDebug();
         // Set a break point anywhere between these two calls and
@@ -27,19 +27,19 @@ class Captain_Tillin : INpcEvent
         e.npc.Say($"Hail {e.mob.GetCleanName()}! Spend your time wisely in the city of Qeynos. Do not let your mind wander to thoughts of bravado or crime. My guards can easily put to rest any outbreaks. Good day to you, citizen!");
     }
 
-    public void Spawn(NpcEvent e)
+    public override void Spawn(NpcEvent e)
     {
         Console.WriteLine("Zone bootup - spawn");
         e.questManager.settimerMS("tillin", 5000);
     }
 
-    public void Signal(NpcEvent e)
+    public override void Signal(NpcEvent e)
     {
         Console.WriteLine("Hit signal new 1");
         e.npc.Say("Ah.  Good.  You have arrived.  Executioner, could you please visit McNeal Jocub at Fish's Tavern.  He has violated our laws and the sentence is death.");
     }
 
-    public void Trade(NpcEvent e)
+    public override void Trade(NpcEvent e)
     {
         var client = e.mob.CastToClient();
         foreach (ItemInstance item in e.itemList)

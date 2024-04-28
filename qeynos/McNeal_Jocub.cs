@@ -3,7 +3,7 @@ using System.Collections;
 
 class McNeal_Jocub : INpcEvent
 {
-    public void Say(NpcEvent e)
+    public override void Say(NpcEvent e)
     {
 
         var msg = e.data.ToLower();
@@ -30,13 +30,13 @@ class McNeal_Jocub : INpcEvent
         }
     }
 
-    public void Signal(NpcEvent e)
+    public override void Signal(NpcEvent e)
     {
         e.npc.Say("Ah fuck it, you shall never take me alive!");
         e.npc.Attack(e.entityList.GetNPCByName("Executioner"));
     }
 
-    public void WaypointArrive(NpcEvent e)
+    public override void WaypointArrive(NpcEvent e)
     {
         if (e.data == "5")
         {
@@ -44,7 +44,7 @@ class McNeal_Jocub : INpcEvent
         }
     }
 
-    public void Trade(NpcEvent e)
+    public override void Trade(NpcEvent e)
     {
         foreach (ItemInstance item in e.itemList)
         {

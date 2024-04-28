@@ -1,4 +1,3 @@
-
 public class ExpeditionInfo
 {
     public string ExpeditionName { get; set; }
