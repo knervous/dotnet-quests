@@ -4,31 +4,40 @@ class ZoneLoad
 {
     public static void Init()
     {
-         // Not 100% working yet but close -- use with caution!
         EQCommands.AddCommand(
-            "magicitem",
-             "Adds magic affixes to the item on the cursor of the target",
+            "moditem",
+             "[MinLevel] [Pct Chance 0-100] Rolls magic properties to the item on the cursor of the target",
              AccountStatus.Guide,
-        (client, separator) =>
+        (client, msg) =>
         {
+            var minLevel = 50;
+            var chance = 100;
+            var args = msg.Split(" ");
+            var originalClient = client;
+            if (args.Length > 1) {
+                int.TryParse(args[1], out minLevel);
+            }
+            if (args.Length > 2) {
+                int.TryParse(args[2], out chance);
+            }
+            
             if (client.GetTarget() != null && client.GetTarget().IsClient())
             {
                 client = client.GetTarget().CastToClient();
-            }
+            } 
+
             if (!client.GetInv().CursorEmpty())
+
             {
                 var item = client.GetInv().GetCursorItem();
-                DiabloMod.RollMagicItem(item, 50, 100);
-
-               
-                var newItem = questinterface.database.CreateItem(item.GetItem(), 1, 0, 0, 0, 0, 0, 0, false, item.GetCustomDataString());
-                client.Message(questinterface.EQ_Yellow, $"Magic item rolled: {newItem.GetItem().Name}");
-
-                // TODO get eq client version specific enums for inventory slots
-                // This is cursor in RoF
-                client.DeleteItemInInventory(33);
-                client.PushItemOnCursor(newItem);
-                client.SendCursorBuffer();
+                var newItem = DiabloMod.RollMagicItem(item, minLevel, chance);
+     
+                client.Message(questinterface.EQ_Yellow, $"Magic item rolled: {newItem.GetItem().Name}.");
+                if (client != originalClient) {
+                    originalClient.Message(questinterface.EQ_Yellow, $"Magic item rolled: {newItem.GetItem().Name}.");
+                }
+                client.MoveItemToInventory(newItem, true);
+                client.DeleteItemInInventory(33, 1, true, true);
             }
         });
     }

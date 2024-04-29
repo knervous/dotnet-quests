@@ -1,9 +1,12 @@
 using Common.DiabloMod;
-
+using Common;
 class Item : IItemEvent
 {
     public void ItemGenerate(ItemEvent e)
     {
+        if (!FeatureFlags.ApplyItemMods) {
+            return;
+        }
         var item = e.item;
         var itemData = item.GetItem();
         var customData = item.GetCustomData("DiabloMod");

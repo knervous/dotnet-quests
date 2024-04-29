@@ -42,7 +42,8 @@ namespace Common.DiabloMod
                 ItemType.ItemType2HSlash,
                 ItemType.ItemType1HPiercing,
                 ItemType.ItemType2HPiercing,
-                ItemType.ItemTypeBow
+                ItemType.ItemTypeBow,
+                ItemType.ItemTypeMartial
             }.Contains(type))
             {
 
@@ -84,6 +85,8 @@ namespace Common.DiabloMod
 
             };
             var serialized = System.Text.Json.JsonSerializer.Serialize(ModData, options);
+            
+            serialized = serialized.Replace("\\u", "u");
             questinterface.LogSys.QuestDebug($"SERIALIZED: {serialized}");
             return serialized;
         }
@@ -308,14 +311,15 @@ namespace Common.DiabloMod
             return false;
         }
 
-        public static bool RollMagicItem(ItemInstance item, int minLevel, int chance)
+        public static ItemInstance RollMagicItem(ItemInstance item, int minLevel, int chance)
         {
             var id = item.GetID();
             if (item.GetCustomData("original_id").Length > 0) {
                 id = uint.Parse(item.GetCustomData("original_id"));
             }
             var itemData = questinterface.database.GetItem(id);
-
+            item.GetItem().Name = itemData.Name;
+            item.GetItem().ID = id;
             var mod = new DiabloMod(itemData, minLevel);
             if (mod.IsValid && Rand.Next(0, 100) > (100 - chance))
             {
@@ -325,9 +329,8 @@ namespace Common.DiabloMod
                     item.SetCustomData("DiabloMod", mod.Serialize());
                     item.SetCustomData("original_id", id);
                 }
-                return true;
             }
-            return false;
+            return questinterface.database.CreateItem(itemData, 1, 0, 0, 0, 0, 0, 0, false, item.GetCustomDataString());
         }
 
 
