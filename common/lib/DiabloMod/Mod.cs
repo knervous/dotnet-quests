@@ -91,6 +91,19 @@ namespace Common.DiabloMod
             return serialized;
         }
 
+        public string GetExtraInfo()
+        {
+
+            List<string> lines = [];
+            foreach (var affix in ModData.Prefixes.Concat(ModData.Suffixes)) {
+                foreach (var p in affix.Props) {
+                    lines.Add($"{p.Prop}: {(p.Op == ModOperation.ADD ? "+" : "")}{(p.Op == ModOperation.ADD ? Math.Round(p.Computed) : (p.Computed * 100).ToString("0") + "%")}");
+                }
+
+            }
+            return string.Join(", ", lines);
+        }
+
         public static ModData? Deserialize(string serialized)
         {
             if (serialized == string.Empty)
@@ -328,6 +341,7 @@ namespace Common.DiabloMod
                 {
                     item.SetCustomData("DiabloMod", mod.Serialize());
                     item.SetCustomData("original_id", id);
+                    item.SetCustomData("extra_info", mod.GetExtraInfo());
                 }
             }
             return questinterface.database.CreateItem(itemData, 1, 0, 0, 0, 0, 0, 0, false, item.GetCustomDataString());
