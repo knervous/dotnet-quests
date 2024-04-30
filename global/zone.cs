@@ -41,4 +41,8 @@ class ZoneLoad
             }
         });
     }
+
+    public static void Dispose() { 
+        EQCommands.FlushCommands(); 
+    }
 }
