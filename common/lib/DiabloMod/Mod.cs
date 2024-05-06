@@ -316,7 +316,7 @@ namespace Common.DiabloMod
                 mod.CreateMagicItem();
                 if (mod.ModData.Quality == ItemQuality.MAGIC)
                 {
-                    item.custom_data = $"DiabloMod^{mod.Serialize()}^original_id^{item.item_id}";
+                    item.custom_data = $"DiabloMod^{mod.Serialize()}^original_id^{item.item_id}^extra_info^{mod.GetExtraInfo()}";
                 }
                 return true;
             }
